@@ -55,16 +55,19 @@ export default function TokenAnalyzer() {
     setScoreData(null)
 
     try {
+      // Fetch token metadata
       const tokenRes = await fetch(`/api/token?mint=${mintAddress}`)
       const token = await tokenRes.json()
       
       if (!tokenRes.ok) throw new Error(token.error || 'Failed to fetch token data')
       setTokenData(token)
 
+      // Fetch rug check analysis
       const rugRes = await fetch(`/api/rugcheck?mint=${mintAddress}`)
       const rug = await rugRes.json()
       setRugCheckData(rug)
 
+      // Fetch ML score
       const scoreRes = await fetch('/api/score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
